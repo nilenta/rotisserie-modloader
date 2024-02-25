@@ -85,7 +85,7 @@ const loader_funcs = {
         return { error: false };
     },
     startup: function(mods) {
-        console.log(`%cRotisserie Mod Loader\n%cVersion: ${ml_vars.version}\n%cVersion Date: ${ml_vars.date}`, "font-size:   36px; font-weight: bold; color: lightgreen;", "font-size:   28px; color: lightblue;", "font-size:   24px; color: black;");
+        console.log(`%cRotisserie Mod Loader\n%cVersion: ${ml_vars.version}\n%cVersion Date: ${ml_vars.date}\nhttps://github.com/nilenta/rotisserie-modloader`, "font-size:   36px; font-weight: bold; color: lightgreen;", "font-size:   28px; color: lightblue;", "font-size:   24px; color: black;");
         console.log("")
         console.log("%cLoading client mods.", "font-size:  30px; font-weight: bold; color: lightblue;");
         console.log("%cMods that are getting loaded will show below.", "font-size:   14px; color: lightblue;");
