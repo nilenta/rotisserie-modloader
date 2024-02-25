@@ -87,6 +87,7 @@ const loader_funcs = {
     }
 }
 
+// maybe i should seperate mods into js files
 
 let client_mods = [
     {
@@ -101,7 +102,6 @@ let client_mods = [
         },
         // add startup function for a function to execute on startup lol lol
         callback: (node) => {
-            console.log('Element with class userSettingsSecurity-1hjwAn added');
             const mainSettings = node.parentElement
             const newDiv = document.createElement('div');
             newDiv.classList.add('marginTop60-10QB5x')
@@ -202,12 +202,81 @@ let client_mods = [
             custom_message: false
         },
         startup: function() {
-            
+
         },
         callback: (node) => {
 
         }
     },
+    {
+        info: {
+            name: 'Settings Menu Test',
+            description: `A test for modifying the settings menu.`,
+            version: `1.0.0`,
+            creator: 'natsu',
+            class_to_look_for: `userSettingsSecurity-1hjwAn`,
+            does_look_for_classes: true,
+            custom_message: false
+        },
+        callback: (node) => {
+            const element = document.querySelectorAll('.separator-3z7STW')[3];
+            const varAfter = document.createElement("div");
+            varAfter.classList = 'itemDefault-3NDwnY item-3879bf notSelected-PgwTMa';
+            varAfter.innerHTML = "test";
+            const parent = document.querySelectorAll('.side-2nYO0F');
+            parent[0].insertBefore(varAfter, element.nextSibling);
+            const contentColumn = document.querySelector('.content-column');
+
+            const newElement = document.createElement('div');
+            newElement.innerHTML = `
+                <div>
+                    <h2 class="h2-2ar_1B title-1pmpPr size16-3IvaX_ height20-165WbF weightSemiBold-T8sxWH defaultColor-v22dK1 defaultMarginh2-37e5HZ marginBottom20-2Ifj-2">
+                        test
+                    </h2>
+                    <div class="flex-vertical">
+                        <h5 class="h5-3KssQU title-1pmpPr size12-1IGJl9 height16-1qXrGy weightSemiBold-T8sxWH marginTop40-1bNyG9 marginBottom8-1mABJ4">
+                            HOPE THIS WORKS
+                        </h5>
+                        <div class="flex-lFgbSz flex-3B1Tl4 horizontal-2BEEBe horizontal-2VE-Fw flex-3B1Tl4 directionRow-yNbSvJ justifyStart-2yIZo0 alignStretch-1hwxMa noWrap-v6g9vO" style="flex: 1 1 auto;">
+                            <div class="flexChild-1KGW5q" style="flex: 1 1 auto;">
+                                <div>
+                                    <div class="description-3MVziF formText-1L-zZB marginBottom20-2Ifj-2 modeDefault-389VjU primary-2giqSn">
+                                        Just maybe..
+                                    </div>
+                                </div>
+                            </div
+                        </div>
+                    </div>
+                </div>`;
+            newElement.style.display = 'none';
+            newElement.classList = 'content-column default'
+
+            contentColumn.parentNode.insertBefore(newElement, contentColumn.nextSibling);
+
+            varAfter.onclick = function() {
+                console.log("clicked");
+                contentColumn.style.display = 'none';
+                newElement.style.display = '';
+                const ee = document.querySelector('.selected-eNoxEK');
+                if (ee) ee.classList = 'itemDefault-3NDwnY item-3879bf notSelected-PgwTMa';
+                this.style.backgroundColor = '#7289da';
+                this.style.color = '#fff';
+            };
+
+            parent[0].addEventListener('click', function(event) {
+                const target = event.target;
+                if (target.classList.contains('item-3879bf') && target !== varAfter) {
+                    contentColumn.style.display = '';
+                    newElement.style.display = 'none';
+                    varAfter.style.backgroundColor = '';
+                    varAfter.style.color = '';
+                }
+            });
+
+
+        }
+    },
+
     
     /* example mod:
     {
