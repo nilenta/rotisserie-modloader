@@ -4,7 +4,7 @@
 
 // we need some useful functions
 const rotisserie = {
-    toolTip: function(text, inptype = "blue") {
+    tooltip: function(text, inptype = "blue") {
         let type = 'noticeInfo-3v29SJ'
         switch(inptype) {
             case "green":
