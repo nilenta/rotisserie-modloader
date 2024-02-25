@@ -2,6 +2,53 @@
     shitty mod loader
 */
 
+// we need some useful functions
+const rotisserie = {
+    toolTip: function(text, inptype = "blue") {
+        let type = 'noticeInfo-3v29SJ'
+        switch(inptype) {
+            case "green":
+                type = 'noticeSuccess-P1EnBb';break;
+            case "red":
+                type = 'noticeDanger-1SIxaf';break;
+            case "purple":
+                type = 'noticeStreamerMode-1OlfKV';break;
+            case "dark-blue":
+                type = 'noticeFacebook-1eAoSW';break;
+            case "blurple":
+                type = 'noticeBrand-3o3fQA';break; 
+            case "orange":
+                type = 'noticeDefault-16Om2m';break; 
+            case "spotify":
+                type ='noticeSpotify-27AKmv';break;
+            default: 
+                type = 'noticeInfo-3v29SJ'
+                break
+        }
+        document.querySelector('.tooltips').innerHTML = `
+            <div class="flexChild-1KGW5q" style="flex: 0 0 auto;">
+                <div>
+                    <div class="${type} notice-3I4-y_ size14-1wjlWP weightMedium-13x9Y8 height36-13sPn7">
+                        <div class="dismiss-1QjyJW" onclick="console.log(this);"></div>
+                        ${text}
+                    </div>
+                </div>
+            </div>` + document.querySelector('.tooltips').innerHTML
+        const lele = document.querySelectorAll(".dismiss-1QjyJW")
+        lele.forEach(item => {
+            item.addEventListener("click", function() {
+                var parentElement = item.parentElement.parentElement.parentElement;
+                parentElement.remove();
+            });
+        })
+    }
+}
+
+// shorterhand variables
+const rts = rotisserie
+const rt = rotisserie
+const chicken = rotisserie // lol
+
 const loader_funcs = {
     verifyMod: function(modDetails) {
         const requiredFields = [
@@ -88,196 +135,10 @@ const loader_funcs = {
 }
 
 // maybe i should seperate mods into js files
-
+// DONE!
+// will remove client_mods array someday lol
 let client_mods = [
-    {
-        info: {
-            name: 'February 2017 Client Button Mod',
-            description: `Test mod, to see if i can do stuff.`,
-            version: `1.0.0`,
-            creator: 'natsu',
-            class_to_look_for: `userSettingsSecurity-1hjwAn`,
-            does_look_for_classes: true,
-            custom_message: false // you can add a function to the object called "startup_message" to add a custom message, will break the entire script if not in the object
-        },
-        // add startup function for a function to execute on startup lol lol
-        callback: (node) => {
-            const mainSettings = node.parentElement
-            const newDiv = document.createElement('div');
-            newDiv.classList.add('marginTop60-10QB5x')
-            newDiv.innerHTML = `
-            <h2 class="h2-2ar_1B title-1pmpPr size16-3IvaX_ height20-165WbF weightSemiBold-T8sxWH defaultColor-v22dK1 defaultMarginh2-37e5HZ marginBottom20-2Ifj-2">
-                February 2017 Client
-            </h2>
-            <div class="flex-vertical">
-                <div class="flex-lFgbSz flex-3B1Tl4 horizontal-2BEEBe horizontal-2VE-Fw flex-3B1Tl4 directionRow-yNbSvJ justifyStart-2yIZo0 alignStretch-1hwxMa noWrap-v6g9vO" style="flex: 1 1 auto;">
-                    <div class="flexChild-1KGW5q" style="flex: 1 1 auto;">
-                        <div>
-                            <div class="description-3MVziF formText-1L-zZB marginBottom20-2Ifj-2 modeDefault-389VjU primary-2giqSn">
-                                Want to switch to February 2017 client? Click the button below! 
-                                Beware, this will be buggy and might not show everything for March 2018.\n\nThis currently does not work.
-                            </div>
-                        <div>
-                        <button type="button" class="button-2t3of8 lookFilled-luDKDo colorBrand-3PmwCE sizeSmall-3g6RX8 grow-25YQ8u disabled-uc2Cqc">
-                            <div class="contents-4L4hQM">
-                                Go to February 2017
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div></div>`
-            mainSettings.appendChild(newDiv);
-        }
-    },
-    {
-        info: {
-            name: 'Green Text & Orange Text',
-            description: `Mod that converts messages starting with > into greentext and messages ending with < into orange text. Just like 4Chan!`,
-            version: `1.0.0`,
-            creator: 'natsu',
-            class_to_look_for: `message-text`,
-            does_look_for_classes: true,
-            custom_message: false
-        },
-        startup: function() {
-            let chatElements = document.querySelectorAll('.message-text');
-            chatElements.forEach(function(element) {
-                if (element.querySelector('.markup') && !element?.getAttribute('handled.greentext')) {
-                    const text = element.querySelector('.markup')
-                    var lines = text.innerHTML.toString().split("\n")
-                    let changedStuff = false
-
-                    let thisLiney = []
-                    lines.forEach(function(line) {
-                        if (line.trim().startsWith('&gt;') && !line.trim().endsWith('&lt;')) {
-                            thisLiney.push('<span style="color: #789922;">' + line + '</span>');
-                            changedStuff = true
-                        } else if (line.trim().endsWith('&lt;') && !line.trim().startsWith('&gt;')) {
-                            thisLiney.push('<span style="color: #FF7F00;">' + line + '</span>');
-                            changedStuff = true
-                        } else {
-                            thisLiney.push(line)
-                        }
-                    });
-                    if (changedStuff) text.innerHTML = thisLiney.join("<br>")
-                    element.setAttribute('handled.greentext', true);
-                }
-            });
-        },
-        callback: (node) => {
-            let chatElements = [node];
-            chatElements.forEach(function(element) {
-                if (element.querySelector('.markup') && !element?.getAttribute('handled.greentext')) {
-                    const text = element.querySelector('.markup')
-                    var lines = text.innerHTML.toString().split("\n")
-                    let changedStuff = false
-
-                    let thisLiney = []
-                    lines.forEach(function(line) {
-                        if (line.trim().startsWith('&gt;') && !line.trim().endsWith('&lt;')) {
-                            thisLiney.push('<span style="color: #789922;">' + line + '</span>');
-                            changedStuff = true
-                        } else if (line.trim().endsWith('&lt;') && !line.trim().startsWith('&gt;')) {
-                            thisLiney.push('<span style="color: #FF7F00;">' + line + '</span>');
-                            changedStuff = true
-                        } else {
-                            thisLiney.push(line)
-                        }
-                    });
-                    if (changedStuff) text.innerHTML = thisLiney.join("<br>")
-                    element.setAttribute('handled.greentext', true);
-                }
-            });
-        }
-    },
-    {
-        info: {
-            name: 'GMedia Rotisserie Port (LEGACY)',
-            description: `GMedia is a mod that fixes non embedding videos and audio.`,
-            version: `1.0.0`,
-            creator: 'natsu',
-            class_to_look_for: `message`,
-            does_look_for_classes: true,
-            custom_message: false
-        },
-        startup: function() {
-
-        },
-        callback: (node) => {
-
-        }
-    },
-    {
-        info: {
-            name: 'Settings Menu Test',
-            description: `A test for modifying the settings menu.`,
-            version: `1.0.0`,
-            creator: 'natsu',
-            class_to_look_for: `userSettingsSecurity-1hjwAn`,
-            does_look_for_classes: true,
-            custom_message: false
-        },
-        callback: (node) => {
-            const element = document.querySelectorAll('.separator-3z7STW')[3];
-            const varAfter = document.createElement("div");
-            varAfter.classList = 'itemDefault-3NDwnY item-3879bf notSelected-PgwTMa';
-            varAfter.innerHTML = "test";
-            const parent = document.querySelectorAll('.side-2nYO0F');
-            parent[0].insertBefore(varAfter, element.nextSibling);
-            const contentColumn = document.querySelector('.content-column');
-
-            const newElement = document.createElement('div');
-            newElement.innerHTML = `
-                <div>
-                    <h2 class="h2-2ar_1B title-1pmpPr size16-3IvaX_ height20-165WbF weightSemiBold-T8sxWH defaultColor-v22dK1 defaultMarginh2-37e5HZ marginBottom20-2Ifj-2">
-                        test
-                    </h2>
-                    <div class="flex-vertical">
-                        <h5 class="h5-3KssQU title-1pmpPr size12-1IGJl9 height16-1qXrGy weightSemiBold-T8sxWH marginTop40-1bNyG9 marginBottom8-1mABJ4">
-                            HOPE THIS WORKS
-                        </h5>
-                        <div class="flex-lFgbSz flex-3B1Tl4 horizontal-2BEEBe horizontal-2VE-Fw flex-3B1Tl4 directionRow-yNbSvJ justifyStart-2yIZo0 alignStretch-1hwxMa noWrap-v6g9vO" style="flex: 1 1 auto;">
-                            <div class="flexChild-1KGW5q" style="flex: 1 1 auto;">
-                                <div>
-                                    <div class="description-3MVziF formText-1L-zZB marginBottom20-2Ifj-2 modeDefault-389VjU primary-2giqSn">
-                                        Just maybe..
-                                    </div>
-                                </div>
-                            </div
-                        </div>
-                    </div>
-                </div>`;
-            newElement.style.display = 'none';
-            newElement.classList = 'content-column default'
-
-            contentColumn.parentNode.insertBefore(newElement, contentColumn.nextSibling);
-
-            varAfter.onclick = function() {
-                console.log("clicked");
-                contentColumn.style.display = 'none';
-                newElement.style.display = '';
-                const ee = document.querySelector('.selected-eNoxEK');
-                if (ee) ee.classList = 'itemDefault-3NDwnY item-3879bf notSelected-PgwTMa';
-                this.style.backgroundColor = '#7289da';
-                this.style.color = '#fff';
-            };
-
-            parent[0].addEventListener('click', function(event) {
-                const target = event.target;
-                if (target.classList.contains('item-3879bf') && target !== varAfter) {
-                    contentColumn.style.display = '';
-                    newElement.style.display = 'none';
-                    varAfter.style.backgroundColor = '';
-                    varAfter.style.color = '';
-                }
-            });
-
-
-        }
-    },
     ...ext_mods,
-    
     /* example mod:
     {
         info: {
@@ -304,5 +165,4 @@ let client_mods = [
     },
     */
 ];
-
 loader_funcs.startup(client_mods); // Yeah
