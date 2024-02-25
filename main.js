@@ -276,7 +276,7 @@ let client_mods = [
 
         }
     },
-
+    ...ext_mods,
     
     /* example mod:
     {
