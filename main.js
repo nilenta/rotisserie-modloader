@@ -112,7 +112,7 @@ const loader_funcs = {
 
         return { error: false };
     },
-    startup: function(mods) {
+    startup: async function(mods) {
         console.log(`%cRotisserie Mod Loader\n%cVersion: ${ml_vars.version}\n%cVersion Date: ${ml_vars.date}\nhttps://github.com/nilenta/rotisserie-modloader`, "font-size:   36px; font-weight: bold; color: lightgreen;", "font-size:   28px; color: lightblue;", "font-size:   24px; color: black;");
         console.log("")
         console.log("%cLoading client mods.", "font-size:  30px; font-weight: bold; color: lightblue;");
@@ -144,9 +144,9 @@ const loader_funcs = {
                         if (node.nodeType === Node.ELEMENT_NODE) {
                             const elements = node.querySelectorAll('*');
                             elements.forEach((element) => {
-                                mods.forEach((pair) => {
+                                mods.forEach(async (pair) => {
                                     if (element.classList && element.classList.contains(pair.info.class_to_look_for) && pair.info.does_look_for_classes && pair?.started) {
-                                        pair.callback(element);
+                                        await pair.callback(element);
                                     }
                                 });
                             });
@@ -193,4 +193,4 @@ let client_mods = [
     },
     */
 ];
-loader_funcs.startup(client_mods); // Yeah
+await loader_funcs.startup(client_mods); // Yeah
